@@ -75,7 +75,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="#F3B700"
-            android:backgroundTint="#FFFFFF"
+            android:backgroundTint="#2B2B2B"
             android:text="Login"
             android:textColor="#000" />
 
