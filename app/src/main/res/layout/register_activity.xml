@@ -101,7 +101,7 @@
                 android:id="@+id/register_radio_teacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="teacher"/>
+                android:text="Teacher" />
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -152,7 +152,7 @@
             android:id="@+id/register_sk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SK"/>
+            android:text="Saya telah membaca dan menyetujui syarat dan ketentuan yang berlaku" />
 
         <Button
             android:id="@+id/register_button"
@@ -173,8 +173,8 @@
             android:layout_margin="5dp"
             android:background="#00000000"
             android:elevation="0dp"
-            android:text="Login?"
-            android:textColor="#000"/>
+            android:text="Sudah punya akun? Login di sini."
+            android:textColor="#000" />
 
 
 
