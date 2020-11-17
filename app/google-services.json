@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "583319802809",
+    "firebase_url": "https://study-point-9c6ae.firebaseio.com",
+    "project_id": "study-point-9c6ae",
+    "storage_bucket": "study-point-9c6ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583319802809:android:101fd14094ebb9b01e5c68",
+        "android_client_info": {
+          "package_name": "id.canwar.studypoint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583319802809-1170beob17m9dqbbr1pbjb5q666il8cs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0d7spIadFZ3V5KYRt_FGQpA7pHIkYzOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583319802809-1170beob17m9dqbbr1pbjb5q666il8cs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
