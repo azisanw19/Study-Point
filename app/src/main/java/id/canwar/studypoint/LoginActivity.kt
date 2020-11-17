@@ -13,7 +13,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.register_activity)
+        setContentView(R.layout.login_activity)
 
 
 
@@ -44,6 +44,12 @@ class LoginActivity : AppCompatActivity() {
                 loginUser(email, password)
         }
 
+        register_activity.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
     private fun loginUser(email: String, password: String) {
@@ -53,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
                     if (it.isSuccessful) {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
+                        finish()
                     }
                 }
                 .addOnFailureListener {

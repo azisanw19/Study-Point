@@ -25,7 +25,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:orientation="vertical">
-
+<!--
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,10 +34,12 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+        -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,6 +48,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -58,6 +61,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -70,6 +74,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -79,24 +84,25 @@
             android:layout_height="wrap_content"
             android:text="Role"
             android:layout_marginTop="20dp"/>
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/register_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/student"
+            <RadioButton
+                android:id="@+id/register_radio_student"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Student"/>
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/teacher"
+            <RadioButton
+                android:id="@+id/register_radio_teacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="teacher"/>
-        </LinearLayout>
+        </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -106,6 +112,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_birthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -119,6 +126,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>
@@ -133,6 +141,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"/>
@@ -140,12 +149,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
-            android:id="@+id/sk"
+            android:id="@+id/register_sk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SK"/>
 
         <Button
+            android:id="@+id/register_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -163,7 +173,7 @@
             android:layout_margin="5dp"
             android:background="#00000000"
             android:elevation="0dp"
-            android:text="Sudah Punya Akun?"
+            android:text="Login?"
             android:textColor="#000"/>
 
 
