@@ -1,9 +1,10 @@
-package id.canwar.studypoint
+package id.canwar.studypoint.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import id.canwar.studypoint.R
 import kotlinx.android.synthetic.main.information_item_holder.view.*
 
 class InformationItemAdapter(val informations: ArrayList<Map<String, Any>?>) : RecyclerView.Adapter<InformationItemAdapter.ViewHolder>() {

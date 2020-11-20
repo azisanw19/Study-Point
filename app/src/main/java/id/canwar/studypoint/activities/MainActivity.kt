@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
-import id.canwar.studypoint.DashboardFragment
+import id.canwar.studypoint.fragments.DashboardFragment
 import id.canwar.studypoint.R
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
@@ -14,7 +14,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-
+    private val authentication = Authentication.getInstance()
+    private val database = Database.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +61,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun databaseGetName() {
 
-        val uid = Authentication.getInstance().getUID()
+        val uid = authentication.getUID()
         if (uid != null) {
 
             Log.d("data user uid", uid)
-            Database.getInstance().getUser(uid) {
+            database.getUser(uid) {
                 Log.d("data user", "$it")
                 supportActionBar?.title = it?.get("firstName")?.toString()
             }
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun signOut() {
 
-        Authentication.getInstance().signOut {
+        authentication.signOut {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()

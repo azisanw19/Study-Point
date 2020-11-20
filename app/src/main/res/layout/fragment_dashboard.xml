@@ -54,6 +54,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:orientation="vertical"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="20dp">
 
         <Button
@@ -70,11 +71,16 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tugas yang sudah dikerjakan"
+        android:layout_marginBottom="8dp" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/already_done_recycler_view"
+        android:id="@+id/task_done_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded"
         android:layout_marginTop="20dp"
         android:scrollbars="none" />
 <!--
