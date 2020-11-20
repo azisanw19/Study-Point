@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import id.canwar.studypoint.R
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
-import kotlinx.android.synthetic.main.register_activity.*
+import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
 

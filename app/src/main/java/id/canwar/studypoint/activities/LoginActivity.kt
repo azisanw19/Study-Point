@@ -6,7 +6,7 @@ import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import id.canwar.studypoint.R
 import id.canwar.studypoint.firebase.Authentication
-import kotlinx.android.synthetic.main.login_activity.*
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 

@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import id.canwar.studypoint.DashboardFragment
 import id.canwar.studypoint.R
 import id.canwar.studypoint.firebase.Authentication
