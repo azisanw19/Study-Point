@@ -1,22 +1,23 @@
-package id.canwar.studypoint
+package id.canwar.studypoint.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import id.canwar.studypoint.R
+import id.canwar.studypoint.firebase.Authentication
+import id.canwar.studypoint.firebase.Database
 import kotlinx.android.synthetic.main.register_activity.*
 
 class RegisterActivity : AppCompatActivity() {
 
-    private val firebaseAuth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
+    private val authentication = Authentication.getInstance()
+    private val database = Database.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.register_activity)
+        setContentView(R.layout.activity_register)
 
         initUI()
     }
@@ -67,15 +68,33 @@ class RegisterActivity : AppCompatActivity() {
 
 
             if (!isError) {
-                val userData = hashMapOf<String, String>(
+                val userData = hashMapOf<String, Any>(
                         "email" to email,
                         "firstName" to firstName,
                         "lastName" to lastName,
                         "role" to role!!,
-                        "birthday" to birthday
+                        "birthday" to birthday,
+                        "point" to 0,
+                        "totalItem" to 0
                 )
 
-                createNewUser(email, password, userData)
+                authentication
+                        .createNewUserWithEmailAndPassword(email, password) {
+                            if (it.isSuccessful) {
+                                userData["userId"] = authentication.getUID()!!
+
+                                database.crateUser(userData) { task ->
+
+                                    if (task.isSuccessful) {
+                                        val intent = Intent(this, MainActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    }
+
+                                }
+                            }
+                        }
+
             }
 
         }
@@ -87,33 +106,6 @@ class RegisterActivity : AppCompatActivity() {
         R.id.register_radio_student -> "student"
         R.id.register_radio_teacher -> "teacher"
         else -> null
-    }
-
-    private fun createNewUser(email: String, password: String, dataRegister: HashMap<String, String>) {
-
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { it ->
-
-                    if (it.isSuccessful) {
-
-                        val uid = firebaseAuth.uid
-                        if (uid != null) {
-                            dataRegister["uid"] = uid
-                            db.collection("users")
-                                    .document(uid)
-                                    .set(dataRegister)
-                                    .addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
-                                            val intent = Intent(this, MainActivity::class.java)
-                                            startActivity(intent)
-                                            finish()
-                                        }
-                                    }
-                        }
-                    }
-
-                }
-
     }
 
 }

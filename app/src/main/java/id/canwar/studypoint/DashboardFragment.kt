@@ -7,13 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import id.canwar.studypoint.firebase.Database
 import kotlinx.android.synthetic.main.dashboard.view.*
 
 class DashboardFragment : Fragment() {
 
     private lateinit var viewGroup: ViewGroup
-    private val db = FirebaseFirestore.getInstance()
+    private val database = Database.getInstance()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -29,29 +31,19 @@ class DashboardFragment : Fragment() {
 
     private fun getInformation(view: View) {
 
-        Log.d("data", "getInformation")
+        database.getInformation {
+            val data: ArrayList<Map<String, Any>?> = ArrayList()
 
-        db.collection("information")
-                .get()
-                .addOnSuccessListener {result ->
+            for (document in it.documents) {
+                data.add(document.data)
+            }
 
-                    Log.d("data", "${result.documents}")
-
-                    val data: ArrayList<Map<String, Any>?> = ArrayList()
-
-                    for (document in result.documents) {
-                        Log.d("data collection", "${document.id} => ${document.data}")
-                        data.add(document.data)
-                    }
-
-                    val informationItemAdapter = InformationItemAdapter(data)
-                    view.info_dashboard_recycler_view.apply {
-                        layoutManager = LinearLayoutManager(context)
-                        adapter = informationItemAdapter
-                    }
-
-
-                }
+            val informationItemAdapter = InformationItemAdapter(data)
+            view.info_dashboard_recycler_view.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = informationItemAdapter
+            }
+        }
 
     }
 

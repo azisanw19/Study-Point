@@ -1,19 +1,20 @@
-package id.canwar.studypoint
+package id.canwar.studypoint.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
+import id.canwar.studypoint.R
+import id.canwar.studypoint.firebase.Authentication
 import kotlinx.android.synthetic.main.login_activity.*
 
 class LoginActivity : AppCompatActivity() {
 
-    private val firebaseAuth = FirebaseAuth.getInstance()
+    private val authentication = Authentication.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login_activity)
+        setContentView(R.layout.activity_login)
         initUI()
     }
 
@@ -37,8 +38,18 @@ class LoginActivity : AppCompatActivity() {
                 isError = true
             }
 
-            if (!isError)
-                loginUser(email, password)
+            if (!isError) {
+
+                authentication
+                        .signInWithEmailAndPassword(email, password) {
+
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+
+                        }
+
+            }
         }
 
         register_activity.setOnClickListener {
@@ -46,22 +57,6 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-    }
-
-    private fun loginUser(email: String, password: String) {
-
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                }
-                .addOnFailureListener {
-                    // TODO on failed
-                }
 
     }
 

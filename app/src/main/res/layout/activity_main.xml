@@ -12,29 +12,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="28dp"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/navigation_icon"
-                android:layout_width="44dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/baseline_menu_black_18dp" />
-
-            <TextView
-                android:id="@+id/header_text_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Nama Orang"
-                android:textSize="32dp"/>
-
-        </LinearLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@color/black"
+            android:elevation="4dp"/>
 
         <FrameLayout
             android:id="@+id/fragment_container"

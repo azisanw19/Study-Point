@@ -4,28 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="20dp"
     android:background="@color/white">
-    <!--android:padding="20dp"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <ImageButton
-            android:layout_width="44dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/baseline_menu_black_18dp" />
+    <!--
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Nama Orang"
-            android:textSize="32dp"/>
+            android:orientation="horizontal">
 
-    </LinearLayout>
--->
+            <ImageButton
+                android:layout_width="44dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/baseline_menu_black_18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Nama Orang"
+                android:textSize="32dp"/>
+
+        </LinearLayout>
+    -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -67,6 +70,14 @@
 
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/already_done_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_marginTop="20dp"
+        android:scrollbars="none" />
+<!--
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -78,7 +89,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Soal a Dikerjakan (poin)"/>
+
+
+
+
+
     </ScrollView>
+    -->
 
 
 </LinearLayout>

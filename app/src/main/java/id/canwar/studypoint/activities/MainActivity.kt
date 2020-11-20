@@ -1,4 +1,4 @@
-package id.canwar.studypoint
+package id.canwar.studypoint.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,17 +8,21 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Source
+import id.canwar.studypoint.DashboardFragment
+import id.canwar.studypoint.R
+import id.canwar.studypoint.firebase.Authentication
+import id.canwar.studypoint.firebase.Database
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val firebaseAuth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(toolbar)
 
         nav_view.setNavigationItemSelectedListener {
 
@@ -44,31 +48,35 @@ class MainActivity : AppCompatActivity() {
             databaseGetName()
         }
 
-        navigation_icon.setOnClickListener {
-            drawer_layout.openDrawer(GravityCompat.START)
-        }
+        val toggle = ActionBarDrawerToggle(
+                this,
+                drawer_layout,
+                toolbar,
+                R.string.navigation_open,
+                R.string.navigation_close,
+        )
+
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
     }
 
     private fun databaseGetName() {
 
-        val uid = firebaseAuth.uid
+        val uid = Authentication.getInstance().getUID()
         if (uid != null) {
 
-            db.collection("users")
-                    .document(uid)
-                    .get()
-                    .addOnSuccessListener { document ->
-                        if (document != null) {
-                            Log.d("data", "${document.data}")
-                            header_text_main.text = document.data?.get("firstName")?.toString() ?: ""
-                        }
-                    }
+            Log.d("data user uid", uid)
+            Database.getInstance().getUser(uid) {
+                Log.d("data user", "$it")
+                supportActionBar?.title = it?.get("firstName")?.toString()
+            }
+
         }
     }
 
     override fun onStart() {
         super.onStart()
-        val firebaseUser = firebaseAuth.currentUser
+        val firebaseUser = Authentication.getInstance().getCurrentUser()
 
         if (firebaseUser == null) {
             // Saat user tidak ada maka belum login pindah ke Loginactivity
@@ -80,10 +88,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun signOut() {
 
-        firebaseAuth.signOut()
-        if (firebaseAuth.currentUser == null) {
+        Authentication.getInstance().signOut {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }
