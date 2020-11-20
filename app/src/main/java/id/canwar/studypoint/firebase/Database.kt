@@ -67,6 +67,101 @@ class Database {
 
     }
 
+    fun getSoal(judul: String, kategori: String, callback: (dataSoal: ArrayList<Map<String, Any>?>, dataUser: ArrayList<Map<String, Any>?>) -> Unit) {
+
+        if (judul == "" && kategori == "") {
+            callback(ArrayList(), ArrayList())
+        }
+
+        val filter = ArrayList<Task<QuerySnapshot>>()
+        if (kategori != "" && judul != "") {
+            val soalRef = db.collection("soal")
+
+            soalRef.orderBy("judul")
+                    .startAt(judul)
+                    .endAt(judul + "\uf8ff")
+            soalRef.orderBy("tingkat")
+                    .startAt(kategori)
+                    .endAt(kategori + "\uf8ff")
+
+            filter.add(soalRef.get())
+        }
+        else {
+            if (judul != "") {
+
+                val dariJudul = db.collection("soal")
+                        .orderBy("judul")
+                        .startAt(judul)
+                        .endAt(judul + "\uf8ff")
+                        .get()
+
+                filter.add(dariJudul)
+            } else if (kategori != "") {
+                val dariTingkat = db.collection("soal")
+                        .orderBy("tingkat")
+                        .startAt(kategori)
+                        .endAt(kategori + "\uf8ff")
+                        .get()
+
+                val dariMataPelajaran = db.collection("soal")
+                        .orderBy("mataPelajaran")
+                        .startAt(kategori)
+                        .endAt(kategori + "\uf8ff")
+                        .get()
+
+                filter.add(dariTingkat)
+                filter.add(dariMataPelajaran)
+            }
+        }
+
+        Log.d("data filter", "$filter")
+
+        Tasks.whenAllSuccess<QuerySnapshot>(filter)
+                .addOnSuccessListener {
+
+                    val soals: ArrayList<Map<String, Any>?> = ArrayList()
+                    val users: ArrayList<Map<String, Any>?> = ArrayList()
+                    val userSnaphot: ArrayList<Task<DocumentSnapshot>> = ArrayList()
+
+                    for (querySnapshot in it) {
+
+                        for (document in querySnapshot) {
+
+                            val soal = document.data
+
+                            val pembuatId = soal["pembuatId"].toString()
+
+                            if (!soals.contains(soal)) {
+                                soals.add(soal)
+                                val userSnap = db.collection("users").document(pembuatId).get()
+                                userSnaphot.add(userSnap)
+                            }
+
+                        }
+
+                    }
+
+                    Tasks.whenAllSuccess<DocumentSnapshot>(userSnaphot)
+                            .addOnSuccessListener {documentSnapshotList ->
+
+                                for (documentSnapshot in documentSnapshotList) {
+                                    val user = documentSnapshot.data
+
+                                    users.add(user)
+                                }
+
+                                Log.d("data soal", "$soals")
+                                Log.d("panjang soal", "${soals.size}")
+                                Log.d("data user", "$users")
+                                Log.d("panjang user", "${users.size}")
+
+                                callback(soals, users)
+                            }
+
+                }
+
+    }
+
     fun getTaskDone(uid: String, callback: (dataTask: ArrayList<Map<String, Any>?>, dataSoal: ArrayList<Map<String, Any>?>) -> Unit) {
 
         db.collection("dikerjakan")

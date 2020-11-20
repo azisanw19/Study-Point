@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.canwar.studypoint.adapters.InformationItemAdapter
@@ -11,9 +12,9 @@ import id.canwar.studypoint.R
 import id.canwar.studypoint.adapters.TaskDoneItemHolder
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
-import kotlinx.android.synthetic.main.fragment_dashboard.view.*
+    import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 
-class DashboardFragment : Fragment() {
+class DashboardFragment(val userData: Map<String, Any>?) : Fragment() {
 
     private lateinit var viewGroup: ViewGroup
     private val database = Database.getInstance()
@@ -28,6 +29,18 @@ class DashboardFragment : Fragment() {
 
         getInformation(viewGroup)
         getTaskDone(viewGroup)
+
+        if (userData?.get("role")?.toString() == "student") {
+            viewGroup.dashboard_search_or_create_soal.text = "Cari Soal"
+            viewGroup.dashboard_search_or_create_soal.setOnClickListener {
+                (activity as AppCompatActivity).supportActionBar?.title = "Cari Soal"
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, SearchFragment())?.commit()
+            }
+        } else if (userData?.get("role")?.toString() == "teacher") {
+            viewGroup.dashboard_search_or_create_soal.text = "Buat Soal"
+
+        }
+
 
         return viewGroup
     }

@@ -26,11 +26,7 @@ class MainActivity : AppCompatActivity() {
         nav_view.setNavigationItemSelectedListener {
 
             when (it.itemId) {
-                R.id.nav_dashboard -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, DashboardFragment()).commit()
-                    nav_view.setCheckedItem(R.id.nav_dashboard)
-                    databaseGetName()
-                }
+                R.id.nav_dashboard -> fragmentDashboard()
                 R.id.nav_profile -> this // TODO("klok nav profile")
                 R.id.nav_item -> this// TODO("klik nav item")
                 R.id.nav_logout -> signOut()
@@ -42,9 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, DashboardFragment()).commit()
-            nav_view.setCheckedItem(R.id.nav_dashboard)
-            databaseGetName()
+            fragmentDashboard()
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -59,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
     }
 
-    private fun databaseGetName() {
+    private fun fragmentDashboard() {
 
         val uid = authentication.getUID()
         if (uid != null) {
@@ -68,6 +62,8 @@ class MainActivity : AppCompatActivity() {
             database.getUser(uid) {
                 Log.d("data user", "$it")
                 supportActionBar?.title = it?.get("firstName")?.toString()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, DashboardFragment(it)).commit()
+                nav_view.setCheckedItem(R.id.nav_dashboard)
             }
 
         }

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@color/white"
     android:padding="20dp">
-
+<!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:textSize="32dp"/>
 
     </LinearLayout>
-
+-->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
@@ -35,6 +35,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_cari_judul_soal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -49,11 +50,13 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_kategori_soal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
     <Button
+        android:id="@+id/search_button_cari_soal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cari" />
@@ -71,6 +74,14 @@
 
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/soal_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:padding="20dp"
+        android:layout_marginTop="10dp"
+        android:scrollbars="none" />
+<!--
     <ScrollView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -110,5 +121,5 @@
 
 
     </ScrollView>
-
+-->
 </LinearLayout>
