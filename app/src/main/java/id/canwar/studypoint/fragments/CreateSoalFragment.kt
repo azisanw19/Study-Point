@@ -73,6 +73,8 @@ class CreateSoalFragment : Fragment() {
 
         viewGroup.upload_gambar_create_soal.setOnClickListener {
 
+            /** Image from kamera gagal **/
+            /*
             if (ContextCompat.checkSelfPermission(
                     context!!,
                     Manifest.permission.CAMERA
@@ -84,6 +86,7 @@ class CreateSoalFragment : Fragment() {
                     REQUEST_CODE_CAMERA
                 )
             }
+             */
 
             val isInProgress = storageTask?.isInProgress ?: false
 
@@ -153,8 +156,7 @@ class CreateSoalFragment : Fragment() {
 
                                 uploadSoal(soalSoal)
                             }
-                        }
-                        else {
+                        } else {
                             uploadSoal(soalSoal)
                         }
                     }
@@ -195,8 +197,7 @@ class CreateSoalFragment : Fragment() {
                             uploadSoal(soalSoal)
 
                         }
-                    }
-                    else {
+                    } else {
                         uploadSoal(soalSoal)
                     }
 
