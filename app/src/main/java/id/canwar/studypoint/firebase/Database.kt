@@ -3,6 +3,7 @@ package id.canwar.studypoint.firebase
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -197,6 +198,24 @@ class Database {
 
 
                 }
+
+    }
+
+    fun creaetDeskripsiSoal(data: Map<String, Any>, callback: (documentReference: DocumentReference) -> Unit) {
+
+        db.collection("soal")
+                .add(data)
+                .addOnSuccessListener(callback)
+
+    }
+
+    fun createSoal(soalId: String, data: Map<String, Any>, callback: (documentReference: DocumentReference) -> Unit) {
+
+        db.collection("soal")
+                .document(soalId)
+                .collection("soalSoal")
+                .add(data)
+                .addOnSuccessListener (callback)
 
     }
 

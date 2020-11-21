@@ -38,7 +38,10 @@ class DashboardFragment(val userData: Map<String, Any>?) : Fragment() {
             }
         } else if (userData?.get("role")?.toString() == "teacher") {
             viewGroup.dashboard_search_or_create_soal.text = "Buat Soal"
-
+            viewGroup.dashboard_search_or_create_soal.setOnClickListener {
+                (activity as AppCompatActivity).supportActionBar?.title = "Buat Soal"
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, CreateSoalFragment())?.commit()
+            }
         }
 
 

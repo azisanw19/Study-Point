@@ -20,4 +20,8 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+
+    <style name="DialogCustom" parent="Theme.AppCompat.Dialog.Alert">
+
+    </style>
 </resources>
