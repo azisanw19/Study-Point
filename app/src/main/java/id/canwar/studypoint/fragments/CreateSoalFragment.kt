@@ -1,31 +1,49 @@
 package id.canwar.studypoint.fragments
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
 import id.canwar.studypoint.R
 import id.canwar.studypoint.dialogs.CustomBuatSoalDialog
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
+import id.canwar.studypoint.firebase.Storage
+import id.canwar.studypoint.helpers.REQUEST_CODE_CAMERA
+import id.canwar.studypoint.helpers.REQUEST_CODE_GALERI
 import kotlinx.android.synthetic.main.dialog_buat_soal.view.*
 import kotlinx.android.synthetic.main.fragment_create_soal.view.*
 
-class CreateSoalFragment() : Fragment() {
+class CreateSoalFragment : Fragment() {
 
     private lateinit var viewGroup: ViewGroup
     private val database = Database.getInstance()
     private val authentication = Authentication.getInstance()
+    private val storage = Storage.getInstance()
+
+    private var storageTask: StorageTask<UploadTask.TaskSnapshot>? = null
 
     private var soalId: String? = null
+    private var countSoal = 1
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         viewGroup = inflater.inflate(R.layout.fragment_create_soal, container, false) as ViewGroup
 
@@ -53,6 +71,29 @@ class CreateSoalFragment() : Fragment() {
 
         }
 
+        viewGroup.upload_gambar_create_soal.setOnClickListener {
+
+            if (ContextCompat.checkSelfPermission(
+                    context!!,
+                    Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    activity!!,
+                    arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_CODE_CAMERA
+                )
+            }
+
+            val isInProgress = storageTask?.isInProgress ?: false
+
+            if (storageTask != null && isInProgress) {
+                Toast.makeText(context, "Uploading in progress", Toast.LENGTH_SHORT).show()
+            } else {
+                getDialogImage()
+            }
+        }
+
         viewGroup.button_submit_create_soal.setOnClickListener {
 
             if (soalId == null) {
@@ -67,13 +108,13 @@ class CreateSoalFragment() : Fragment() {
                 val uid = authentication.getUID()
 
                 val dataSoal = hashMapOf<String, Any>(
-                        "judul" to judul,
-                        "deskripsi" to deskripsi,
-                        "waktu" to waktu,
-                        "mataPelajaran" to mataPelajaran,
-                        "tingkat" to tingkat,
-                        "point" to pointMax,
-                        "pembuatId" to uid!!
+                    "judul" to judul,
+                    "deskripsi" to deskripsi,
+                    "waktu" to waktu,
+                    "mataPelajaran" to mataPelajaran,
+                    "tingkat" to tingkat,
+                    "point" to pointMax,
+                    "pembuatId" to uid!!
                 )
 
                 val soal = viewGroup.soal_create_soal.text.toString()
@@ -104,21 +145,17 @@ class CreateSoalFragment() : Fragment() {
                 else {
                     database.creaetDeskripsiSoal(dataSoal) {
                         soalId = it.id
-                        database.createSoal(soalId!!, soalSoal) {documentCreateSoal ->
-                            CustomBuatSoalDialog(activity!!) { dialog, view ->
-                                view.dialog_selesaikan_soal.setOnClickListener {
-                                    Toast.makeText(context, "Soal anda berhasil disimpan", Toast.LENGTH_SHORT).show()
-                                    dialog.dismiss()
-                                    clearEditText()
-                                }
-                                view.dialog_tambah_soal.setOnClickListener {
-                                    Toast.makeText(context, "soal no $countSoal berhasil disimpan", Toast.LENGTH_SHORT).show()
-                                    countSoal++
-                                    viewGroup.information_soal_create_soal.visibility = View.GONE
-                                    dialog.dismiss()
-                                    clearEditText()
-                                }
+                        if (storageTask != null) {
+                            val uriTask = storageTask?.snapshot?.metadata?.reference?.downloadUrl
+                            uriTask?.addOnSuccessListener { uri ->
+                                soalSoal["image"] = uri.toString()
+                                Log.d("upload image", "$uri")
+
+                                uploadSoal(soalSoal)
                             }
+                        }
+                        else {
+                            uploadSoal(soalSoal)
                         }
                     }
                 }
@@ -149,22 +186,18 @@ class CreateSoalFragment() : Fragment() {
                 if (kunci == "")
                     Toast.makeText(context, "Kunci jawaban belum terisi", Toast.LENGTH_SHORT).show()
                 else {
+                    if (storageTask != null) {
+                        val uriTask = storageTask?.snapshot?.metadata?.reference?.downloadUrl
+                        uriTask?.addOnSuccessListener { uri ->
+                            soalSoal["image"] = uri.toString()
+                            Log.d("upload image", "$uri")
 
-                    database.createSoal(soalId!!, soalSoal) {
-                        CustomBuatSoalDialog(activity!!) { dialog, view ->
-                            view.dialog_selesaikan_soal.setOnClickListener {
-                                Toast.makeText(context, "Soal anda berhasil disimpan", Toast.LENGTH_SHORT).show()
-                                dialog.dismiss()
-                                clearEditText()
-                            }
-                            view.dialog_tambah_soal.setOnClickListener {
-                                Toast.makeText(context, "soal no $countSoal berhasil disimpan", Toast.LENGTH_SHORT).show()
-                                countSoal++
-                                viewGroup.information_soal_create_soal.visibility = View.GONE
-                                dialog.dismiss()
-                                clearEditText()
-                            }
+                            uploadSoal(soalSoal)
+
                         }
+                    }
+                    else {
+                        uploadSoal(soalSoal)
                     }
 
                 }
@@ -172,6 +205,38 @@ class CreateSoalFragment() : Fragment() {
         }
 
         return viewGroup
+
+    }
+
+    private fun uploadSoal(soalSoal: Map<String, Any>) {
+
+        database.createSoal(soalId!!, soalSoal) {
+            CustomBuatSoalDialog(activity!!) { dialog, view ->
+                view.dialog_selesaikan_soal.setOnClickListener {
+                    Toast.makeText(
+                        context,
+                        "Soal anda berhasil disimpan",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    storageTask = null
+                    dialog.dismiss()
+                    clearEditText()
+                }
+                view.dialog_tambah_soal.setOnClickListener {
+                    Toast.makeText(
+                        context,
+                        "soal no $countSoal berhasil disimpan",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    countSoal++
+                    storageTask = null
+                    viewGroup.information_soal_create_soal.visibility =
+                        View.GONE
+                    dialog.dismiss()
+                    clearEditText()
+                }
+            }
+        }
 
     }
 
@@ -185,6 +250,81 @@ class CreateSoalFragment() : Fragment() {
         viewGroup.pilihanE_create_soal.setText("")
         viewGroup.kunci_create_soal.setText("")
 
+    }
+
+    private fun imageChooserGaleri() {
+
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, REQUEST_CODE_GALERI)
+
+    }
+
+    /** Image from kamera gagal **/
+/*
+    private fun imageChooserCamera() {
+
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val file = File(context?.filesDir, "Pic.jpg")
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
+        startActivityForResult(intent, REQUEST_CODE_CAMERA)
+    }
+*/
+    private fun getFileExtension(uri: Uri): String {
+
+        val mimeTypeMap = MimeTypeMap.getSingleton()
+        return mimeTypeMap.getExtensionFromMimeType(activity!!.contentResolver.getType(uri))
+            .toString()
+
+    }
+
+    private fun getDialogImage() {
+
+        val charSequence = arrayOf("Galeri")
+
+        val dialog = AlertDialog.Builder(context)
+            .setTitle("Upload image")
+            .setItems(charSequence) { _, which ->
+
+                when (which) {
+                    0 -> imageChooserGaleri()
+                }
+
+            }
+
+        dialog.create()
+        dialog.show()
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        Log.d("upload intent result", "${data?.data}")
+
+        if (requestCode == REQUEST_CODE_GALERI && data != null && data.data != null) {
+
+            val imageUri = data?.data!!
+
+            val extension = getFileExtension(imageUri)!!
+
+            storageTask = storage.uploadSoal(imageUri, extension, context!!)
+
+        }
+        /** Image from kamera gagal **/
+/*
+        if (requestCode == REQUEST_CODE_CAMERA) {
+
+            Log.d("upload from camera", "upload")
+
+            val uri = data?.extras?.get(MediaStore.EXTRA_OUTPUT) as Uri
+
+            val extension = getFileExtension(uri)
+
+            storageTask = storage.uploadSoal(uri, extension, context!!)
+
+        }
+
+ */
     }
 
 
