@@ -1,12 +1,15 @@
 package id.canwar.studypoint.adapters
 
 import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.canwar.studypoint.R
+import id.canwar.studypoint.activities.KerjakanActivity
 import id.canwar.studypoint.dialogs.CustomDetailSoal
 import kotlinx.android.synthetic.main.dialog_details_soal.view.*
 import kotlinx.android.synthetic.main.soal_item_holder.view.*
@@ -44,6 +47,20 @@ class SoalItemHolder(val activity: Activity, val dataSoal: ArrayList<Map<String,
                     Log.d("soal-soal", "${soal?.get("soalSoal")}")
 
                     viewDialog.dialog_kerjakan_soal.setOnClickListener {
+
+                        val intent = Intent(activity, KerjakanActivity::class.java).apply {
+
+                            val bundle = Bundle().apply {
+                                putExtra("idSoal", soal?.get("soalId").toString())
+                                putExtra("waktu", waktu)
+                            }
+
+                            putExtras(bundle)
+
+                        }
+
+                        activity.startActivity(intent)
+                        dialog.dismiss()
 
                     }
 

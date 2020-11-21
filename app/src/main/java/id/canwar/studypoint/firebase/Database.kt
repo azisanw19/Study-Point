@@ -7,6 +7,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import java.time.LocalDate
 
 class Database {
 
@@ -130,6 +131,10 @@ class Database {
 
                             val soal = document.data
 
+                            soal["soalId"] = document.id
+
+                            Log.d("data soal id", "${document.id}")
+
                             val pembuatId = soal["pembuatId"].toString()
 
                             if (!soals.contains(soal)) {
@@ -216,6 +221,35 @@ class Database {
                 .collection("soalSoal")
                 .add(data)
                 .addOnSuccessListener (callback)
+
+    }
+
+    fun getSoalSoal(soalId: String, callback: (data: ArrayList<Map<String, Any>>) -> Unit) {
+
+        db.collection("soal")
+            .document(soalId)
+            .collection("soalSoal")
+            .get()
+            .addOnSuccessListener {
+
+                val data: ArrayList<Map<String, Any>> = ArrayList()
+
+                for (documentSnapshot in it.documents) {
+
+                    val soal = documentSnapshot.data
+
+                    if (soal != null) {
+                        data.add(soal)
+                    }
+
+                }
+
+                Log.d("data soal soal", "$data")
+
+                callback(data)
+
+
+            }
 
     }
 
