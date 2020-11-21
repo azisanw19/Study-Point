@@ -1,13 +1,17 @@
 package id.canwar.studypoint.adapters
 
+import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.canwar.studypoint.R
+import id.canwar.studypoint.dialogs.CustomDetailSoal
+import kotlinx.android.synthetic.main.dialog_details_soal.view.*
 import kotlinx.android.synthetic.main.soal_item_holder.view.*
 
-class SoalItemHolder(val dataSoal: ArrayList<Map<String, Any>?>, val dataUser: ArrayList<Map<String, Any>?>) : RecyclerView.Adapter<SoalItemHolder.ViewHolder>() {
+class SoalItemHolder(val activity: Activity, val dataSoal: ArrayList<Map<String, Any>?>, val dataUser: ArrayList<Map<String, Any>?>) : RecyclerView.Adapter<SoalItemHolder.ViewHolder>() {
 
     open inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -22,6 +26,29 @@ class SoalItemHolder(val dataSoal: ArrayList<Map<String, Any>?>, val dataUser: A
 
             view.soal_item_holder_deskripsi.text = soal?.get("deskripsi").toString()
 
+            view.soal_item_holder_details.setOnClickListener {
+                CustomDetailSoal(activity) { dialog, viewDialog ->
+
+                    viewDialog.dialog_judul.text = soal?.get("judul").toString()
+                    viewDialog.dialog_guru.text = "$firstName $lastName"
+                    viewDialog.dialog_deskripsi.text = soal?.get("deskripsi").toString()
+
+                    val waktu = soal?.get("waktu").toString()
+
+                    viewDialog.dialog_waktu.text = "$waktu menit"
+
+                    val mataPelajaran = soal?.get("mataPelajaran").toString()
+                    val tingkat = soal?.get("tingkat").toString()
+                    viewDialog.dialog_kategori.text = "$mataPelajaran, $tingkat"
+
+                    Log.d("soal-soal", "${soal?.get("soalSoal")}")
+
+                    viewDialog.dialog_kerjakan_soal.setOnClickListener {
+
+                    }
+
+                }
+            }
         }
 
     }

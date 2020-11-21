@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/dialog_judul"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Judul Soal"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/dialog_guru"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guru"
+        android:textSize="14dp"/>
+
+    <TextView
+        android:id="@+id/dialog_deskripsi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Deskripsi" />
+
+    <TextView
+        android:id="@+id/dialog_waktu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="80 Menit" />
+
+    <TextView
+        android:id="@+id/dialog_kategori"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/dialog_kerjakan_soal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Kerjakan"
+        android:layout_marginBottom="8dp"/>
+
+</LinearLayout>

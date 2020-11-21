@@ -32,7 +32,7 @@ class SearchFragment : Fragment() {
 
             database.getSoal(judul, kategori) { dataSoal, dataUser ->
 
-                val soalItemHolder = SoalItemHolder(dataSoal, dataUser)
+                val soalItemHolder = SoalItemHolder(activity!!, dataSoal, dataUser)
                 viewGroup.soal_recycler_view.apply {
                     layoutManager = LinearLayoutManager(context)
                     adapter = soalItemHolder
