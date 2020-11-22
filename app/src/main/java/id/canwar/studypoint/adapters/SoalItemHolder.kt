@@ -51,7 +51,7 @@ class SoalItemHolder(val activity: Activity, val dataSoal: ArrayList<Map<String,
                         val intent = Intent(activity, KerjakanActivity::class.java).apply {
 
                             val bundle = Bundle().apply {
-                                putExtra("idSoal", soal?.get("soalId").toString())
+                                putExtra("soalId", soal?.get("soalId").toString())
                                 putExtra("waktu", waktu)
                             }
 
