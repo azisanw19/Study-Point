@@ -146,6 +146,7 @@ class CreateSoalFragment : Fragment() {
                 if (kunci == "")
                     Toast.makeText(context, "Kunci jawaban belum terisi", Toast.LENGTH_SHORT).show()
                 else {
+                    soalSoal["kunci"] = kunci
                     database.creaetDeskripsiSoal(dataSoal) {
                         soalId = it.id
                         if (storageTask != null) {
@@ -188,6 +189,7 @@ class CreateSoalFragment : Fragment() {
                 if (kunci == "")
                     Toast.makeText(context, "Kunci jawaban belum terisi", Toast.LENGTH_SHORT).show()
                 else {
+                    soalSoal["kunci"] = kunci
                     if (storageTask != null) {
                         val uriTask = storageTask?.snapshot?.metadata?.reference?.downloadUrl
                         uriTask?.addOnSuccessListener { uri ->
