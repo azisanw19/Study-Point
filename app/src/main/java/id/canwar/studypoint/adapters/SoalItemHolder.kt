@@ -53,6 +53,7 @@ class SoalItemHolder(val activity: Activity, val dataSoal: ArrayList<Map<String,
                             val bundle = Bundle().apply {
                                 putExtra("soalId", soal?.get("soalId").toString())
                                 putExtra("waktu", waktu)
+                                putExtra("pointMax", soal?.get("point").toString())
                             }
 
                             putExtras(bundle)

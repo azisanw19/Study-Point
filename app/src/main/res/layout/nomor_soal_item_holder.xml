@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_nomor_soal"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:gravity="center"
+    app:cardBackgroundColor="#ffffff"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
+
+    <TextView
+        android:id="@+id/nomor_soal_text_item_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="15"
+        android:textColor="@color/black"
+        android:textSize="21sp" />
+
+</androidx.cardview.widget.CardView>
+

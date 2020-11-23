@@ -7,7 +7,6 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import java.time.LocalDate
 
 class Database {
 
@@ -237,6 +236,7 @@ class Database {
                 for (documentSnapshot in it.documents) {
 
                     val soal = documentSnapshot.data
+                    soal?.set("key", documentSnapshot.id)
 
                     if (soal != null) {
                         data.add(soal)
@@ -245,12 +245,102 @@ class Database {
                 }
 
                 Log.d("data soal soal", "$data")
-
                 callback(data)
-
 
             }
 
     }
 
+    fun pushKerjakan(dikerjakan: Map<String, Any>, callback: (id: String) -> Unit) {
+
+        db.collection("dikerjakan")
+            .add(dikerjakan)
+            .addOnSuccessListener {
+                Log.d("puskKerjakan", "${it.id}")
+                callback(it.id)
+            }
+    }
+
+    fun setPoint(idDikerjakan: String, point: Int) {
+
+        db.collection("dikerjakan")
+            .document(idDikerjakan)
+            .update("point", point)
+            .addOnSuccessListener {
+                Log.d("update point", "$point")
+            }
+
+    }
+
+    fun pushJawaban(idDikerjakan: String, key: String, jawaban: Map<String, Any>) {
+
+        db.collection("dikerjakan")
+            .document(idDikerjakan)
+            .collection("jawaban")
+            .document(key)
+            .set(jawaban)
+            .addOnSuccessListener {
+                Log.d("Save jawaban", "success")
+            }
+
+    }
+
+    fun getJawaban(idDikerjakan: String, callback: (jawaban: ArrayList<Map<String, Any>>) -> Unit) {
+
+        db.collection("dikerjakan")
+            .document(idDikerjakan)
+            .collection("jawaban")
+            .get()
+            .addOnSuccessListener {
+
+                val jawaban = ArrayList<Map<String, Any>>()
+
+                for (documentSnapshot in it.documents) {
+                    val jwb = documentSnapshot.data
+                    jwb?.set("key", documentSnapshot.id)
+
+                    jawaban.add(jwb!!)
+                }
+
+                callback(jawaban)
+            }
+
+    }
+
+    fun updatePointProfile(uid:String, point: Int) {
+
+        getUser(uid) {
+            val pointSebelumnya = it?.get("point").toString().toInt()
+            val totalPoint = point + pointSebelumnya
+            db.collection("users")
+                .document(uid)
+                .update("point", totalPoint)
+                .addOnSuccessListener {
+                    Log.d("update point user", "$totalPoint")
+                }
+        }
+
+    }
+
+
+/**
+    fun pushPoint(idDikerjakan: String, point: Int) {
+
+        db.collection("dikerjakan")
+            .document(idDikerjakan)
+            .get()
+            .addOnSuccessListener {
+                val pointSebelumnya = it.data?.get("point")?.toString()?.toInt()!!
+
+                val totalPoint = pointSebelumnya + point
+                db.collection("dikerjakan")
+                    .document(idDikerjakan)
+                    .update("point", totalPoint)
+                    .addOnSuccessListener {
+                        Log.d("update point", "$totalPoint")
+                    }
+            }
+
+    }
+**/
 }

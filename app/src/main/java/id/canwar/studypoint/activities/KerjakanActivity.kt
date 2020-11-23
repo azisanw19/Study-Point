@@ -1,157 +1,133 @@
 package id.canwar.studypoint.activities
 
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.squareup.picasso.Picasso
+import androidx.recyclerview.widget.LinearLayoutManager
 import id.canwar.studypoint.R
+import id.canwar.studypoint.adapters.NomorSoalItemHolder
+import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
+import id.canwar.studypoint.fragments.SoalFragment
 import kotlinx.android.synthetic.main.activity_kerjakan.*
 
 class KerjakanActivity : AppCompatActivity() {
 
-    private var timeLeftInMilliSecond: Long? = null
     private val database = Database.getInstance()
-    private var countDownTimer: CountDownTimer? = null
-
-    private var nomorSoal: Int = 0
+    private val authentication = Authentication.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kerjakan)
 
-        val bundle = intent.extras
+        val soalId = intent.extras?.getString("soalId")
+        var indexSoal = 0
+        val pointMax = intent.extras?.getString("pointMax")?.toInt()!!
+        val uid = authentication.getUID()!!
 
-        timeLeftInMilliSecond = bundle?.getString("waktu")?.toLong()!! * 1000 * 60
-        updateText()
+        val dikerjakan = mapOf<String, Any>(
+            "userId" to uid,
+            "soalId" to intent.extras?.getString("soalId")!!,
+            "point" to 0,
+            "waktuDikerjakan" to System.currentTimeMillis()
+        )
 
-        val soalId = bundle.getString("soalId")
+        database.getSoalSoal(soalId!!) {
+            database.pushKerjakan(dikerjakan) { id ->
 
-        database.getSoalSoal(soalId!!) { soalSoal ->
+                // Initializing soal
+                val soal = it[indexSoal]
+                val jumlahSoal = it.size - 1
+                val point = pointMax / it.size
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frame_layout_fragment, SoalFragment(soal, id)).commit()
+                hiddenNextOrBack(indexSoal, jumlahSoal, id, it, point)
 
-            tampilkanSoal(soalSoal[0])
+                // initializing nomor
+                val warnaNomor = ArrayList<Int>()
+                for (i in 0 until jumlahSoal + 1) {
+                    warnaNomor.add(0)
+                }
+                setupPilihNomor(warnaNomor)
 
-            val size = soalSoal.size
-            checkNomor(size)
 
-            kerjakan_sebelumnya.setOnClickListener {
-                Log.d("kerjakan klik", "sebelumnya")
-                checkNomor(size)
-                nomorSoal -= 1
-                tampilkanSoal(soalSoal[nomorSoal])
+                kerjakan_sebelumnya.setOnClickListener { view ->
+
+                    indexSoal--
+                    val temp = it[indexSoal]
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame_layout_fragment, SoalFragment(temp, id)).commit()
+
+                    // setup header
+                    hiddenNextOrBack(indexSoal, jumlahSoal, id, it, point)
+                    kerjakan_nomor.text = "No. ${indexSoal + 1}"
+                }
+
+                kerjakan_sesudahnya.setOnClickListener { view ->
+
+                    indexSoal++
+                    val temp = it[indexSoal]
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame_layout_fragment, SoalFragment(temp, id)).commit()
+
+                    // setup header
+                    hiddenNextOrBack(indexSoal, jumlahSoal, id, it, point)
+                    kerjakan_nomor.text = "No. ${indexSoal + 1}"
+
+                }
             }
-            kerjakan_sesudahnya.setOnClickListener {
-                nomorSoal += 1
-                checkNomor(size)
-                tampilkanSoal(soalSoal[nomorSoal])
-                Log.d("kerjakan klik", "sesudahnya")
+        }
+    }
 
-            }
+    private fun setupPilihNomor(warnaNomor: ArrayList<Int>) {
 
-            startTimer()
-
+        val nomorSoalItemHolder = NomorSoalItemHolder(this, warnaNomor)
+        kerjakan_pilih_nomor_recycler_view.apply {
+            layoutManager =
+                LinearLayoutManager(this@KerjakanActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = nomorSoalItemHolder
         }
 
     }
 
-    private fun checkNomor(size: Int) {
-        if (nomorSoal == 1)
+    private fun hiddenNextOrBack(index: Int, jumlahSoal: Int, id: String, soal: ArrayList<Map<String, Any>>, point: Int) {
+
+        if (index == 0) {
             kerjakan_sebelumnya.visibility = View.INVISIBLE
-        else
+        } else {
             kerjakan_sebelumnya.visibility = View.VISIBLE
+        }
 
-        if (nomorSoal == size - 1)
+        if (index == jumlahSoal) {
             kerjakan_sesudahnya.visibility = View.INVISIBLE
-        else
+            kerjakan_selesai.visibility = View.VISIBLE
+            kerjakan_selesai.setOnClickListener {
+                selesaiMengerjakan(id, soal, point)
+            }
+        } else {
             kerjakan_sesudahnya.visibility = View.VISIBLE
-    }
-
-    private fun tampilkanSoal(soal: Map<String, Any>) {
-
-        kerjakan_nomor.text = "No ${nomorSoal + 1}"
-
-        soal_kerjakan.text = soal["soal"]?.toString()
-        val image = soal["image"]?.toString()
-        if (image != null) {
-            try {
-                Picasso.get().load(image).into(image_soal_kerjakan)
-            } catch (e: Exception) {
-                Log.e("Picasso failed", image)
-            }
-        } else
-            image_soal_kerjakan.visibility = View.GONE
-
-        pilihanA_kerjakan.visibility = View.GONE
-        pilihanB_kerjakan.visibility = View.GONE
-        pilihanC_kerjakan.visibility = View.GONE
-        pilihanD_kerjakan.visibility = View.GONE
-        pilihanE_kerjakan.visibility = View.GONE
-
-        val pilihanA = soal["a"]?.toString()
-        val pilihanB = soal["b"]?.toString()
-        val pilihanC = soal["c"]?.toString()
-        val pilihanD = soal["d"]?.toString()
-        val pilihanE = soal["e"]?.toString()
-
-        if (pilihanA != null) {
-            pilihanA_kerjakan.visibility = View.VISIBLE
-            pilihanA_kerjakan.text = pilihanA
-        }
-
-        if (pilihanB != null) {
-            pilihanB_kerjakan.visibility = View.VISIBLE
-            pilihanB_kerjakan.text = pilihanB
-        }
-
-        if (pilihanC != null) {
-            pilihanC_kerjakan.visibility = View.VISIBLE
-            pilihanC_kerjakan.text = pilihanC
-        }
-
-        if (pilihanD != null) {
-            pilihanD_kerjakan.visibility = View.VISIBLE
-            pilihanD_kerjakan.text = pilihanD
-        }
-
-        if (pilihanE != null) {
-            pilihanE_kerjakan.visibility = View.VISIBLE
-            pilihanE_kerjakan.text = pilihanE
+            kerjakan_selesai.visibility = View.INVISIBLE
         }
 
     }
 
-    private fun startTimer() {
+    private fun selesaiMengerjakan(idDikerjakan: String, soal: ArrayList<Map<String, Any>>, point: Int) {
 
-        countDownTimer = object : CountDownTimer(timeLeftInMilliSecond!!, 1000) {
-            override fun onTick(tick: Long) {
-                timeLeftInMilliSecond = tick
-                updateText()
+        database.getJawaban(idDikerjakan) {
+            var count = 0
+            for (jawaban in it) {
+                for (soal1 in soal) {
+                    if (jawaban["key"] == soal1.get("key"))
+                        count += point
+                }
             }
 
-            override fun onFinish() {
-                TODO("Not yet implemented")
-            }
+            val uid = authentication.getUID()!!
 
-        }.start()
-
-    }
-
-    private fun updateText() {
-
-        Log.d("time update", "update time")
-
-        val minutes = ((timeLeftInMilliSecond!! / 1000) / 60).toInt()
-        val seconds = ((timeLeftInMilliSecond!! / 1000) % 60).toInt()
-
-        var timeLeftText = "$minutes:"
-        if (seconds < 10)
-            timeLeftText += "0"
-        timeLeftText += "$seconds"
-
-        kerjakan_waktu_tersisa.text = timeLeftText
-
+            database.setPoint(idDikerjakan, count)
+            database.updatePointProfile(uid, count)
+            finish()
+        }
 
     }
 
