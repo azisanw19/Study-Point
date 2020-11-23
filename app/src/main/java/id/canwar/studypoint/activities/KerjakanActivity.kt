@@ -1,6 +1,8 @@
 package id.canwar.studypoint.activities
 
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,9 @@ class KerjakanActivity : AppCompatActivity() {
     private val database = Database.getInstance()
     private val authentication = Authentication.getInstance()
 
+    private var countDownTimer: CountDownTimer? = null
+    private var timeMilliSecond: Long? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kerjakan)
@@ -24,6 +29,7 @@ class KerjakanActivity : AppCompatActivity() {
         var indexSoal = 0
         val pointMax = intent.extras?.getString("pointMax")?.toInt()!!
         val uid = authentication.getUID()!!
+        timeMilliSecond = intent.extras?.getString("waktu")?.toLong()!! * 1000 * 60
 
         val dikerjakan = mapOf<String, Any>(
             "userId" to uid,
@@ -75,8 +81,40 @@ class KerjakanActivity : AppCompatActivity() {
                     kerjakan_nomor.text = "No. ${indexSoal + 1}"
 
                 }
+
+                startTimer(id, it, point)
             }
         }
+    }
+
+    private fun startTimer(idDikerjakan: String, soal: ArrayList<Map<String, Any>>, point: Int) {
+        countDownTimer = object : CountDownTimer(timeMilliSecond!!, 1000) {
+            override fun onTick(p0: Long) {
+                timeMilliSecond = p0
+                updateKerjakanwaktu()
+            }
+
+            override fun onFinish() {
+                selesaiMengerjakan(idDikerjakan, soal, point)
+            }
+
+        }.start()
+    }
+
+    private fun updateKerjakanwaktu() {
+
+        Log.d("time update", "update time")
+
+        val minutes = ((timeMilliSecond!! / 1000) / 60).toInt()
+        val seconds = ((timeMilliSecond!! / 1000) % 60).toInt()
+
+        var timeText = "$minutes:"
+        if (seconds < 10)
+            timeText += "0"
+        timeText += "$seconds"
+
+        kerjakan_waktu_tersisa.text = timeText
+
     }
 
     private fun setupPilihNomor(warnaNomor: ArrayList<Int>) {
@@ -126,6 +164,7 @@ class KerjakanActivity : AppCompatActivity() {
 
             database.setPoint(idDikerjakan, count)
             database.updatePointProfile(uid, count)
+            countDownTimer?.cancel()
             finish()
         }
 

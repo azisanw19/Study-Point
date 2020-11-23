@@ -32,14 +32,14 @@ class SoalFragment(val soal: Map<String, Any>, val idDikerjakan: String) : Fragm
 
     private fun cekJawaban() {
 
-        val kunci = soal["kunci"].toString()
         val jawaban = onRadioButtonClicked()
         val key = soal["key"].toString()
-        val jwb = mapOf<String, Any>(
-            "jawab" to jawaban!!
-        )
-        database.pushJawaban(idDikerjakan, key, jwb)
-
+        if (jawaban != null) {
+            val jwb = mapOf<String, Any>(
+                "jawab" to jawaban!!
+            )
+            database.pushJawaban(idDikerjakan, key, jwb)
+        }
     }
 
     override fun onDestroy() {
