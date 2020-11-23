@@ -49,5 +49,6 @@ dependencies {
 
     /** Resource file **/
     implementation 'androidx.navigation:navigation-ui:2.3.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.firebase:firebase-auth:20.0.1'
 }
