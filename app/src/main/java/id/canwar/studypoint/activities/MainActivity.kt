@@ -10,6 +10,7 @@ import id.canwar.studypoint.fragments.DashboardFragment
 import id.canwar.studypoint.R
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
+import id.canwar.studypoint.fragments.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
             when (it.itemId) {
                 R.id.nav_dashboard -> fragmentDashboard()
-                R.id.nav_profile -> this // TODO("klok nav profile")
+                R.id.nav_profile -> fragmentProfile()
                 R.id.nav_item -> this// TODO("klik nav item")
                 R.id.nav_logout -> signOut()
             }
@@ -53,6 +54,14 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
     }
 
+    private fun fragmentProfile() {
+
+        supportActionBar?.title = "Profile"
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ProfileFragment()).commit()
+        nav_view.setCheckedItem(R.id.nav_profile)
+
+    }
+
     private fun fragmentDashboard() {
 
         val uid = authentication.getUID()
@@ -61,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("data user uid", uid)
             database.getUser(uid) {
                 Log.d("data user", "$it")
-                supportActionBar?.title = it?.get("firstName")?.toString()
+                supportActionBar?.title = "${it?.get("firstName")?.toString()} ${it?.get("lastName")?.toString()}"
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, DashboardFragment(it)).commit()
                 nav_view.setCheckedItem(R.id.nav_dashboard)
             }

@@ -335,6 +335,34 @@ class Database {
 
     }
 
+    fun updateTotalTugas(uid: String) {
+
+        getUser(uid) {
+
+            val tugasDikerjakan = it?.get("tugasDikerjakan")?.toString()?.toInt() ?: 0
+            val totalTugasDikerjakan = tugasDikerjakan + 1
+            db.collection("users")
+                .document(uid)
+                .update("tugasDikerjakan", totalTugasDikerjakan)
+                .addOnSuccessListener {
+                    Log.d("tambah dikerjakan", "$totalTugasDikerjakan")
+                }
+
+        }
+
+    }
+
+    fun updateUser(uid: String, update: Map<String, Any>, callback: () -> Unit) {
+
+        db.collection("users")
+            .document(uid)
+            .update(update)
+            .addOnSuccessListener {
+                callback()
+            }
+
+    }
+
 
 /**
     fun pushPoint(idDikerjakan: String, point: Int) {

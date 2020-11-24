@@ -180,6 +180,7 @@ class KerjakanActivity : AppCompatActivity() {
 
             database.setPoint(idDikerjakan, count)
             database.updatePointProfile(uid, count)
+            database.updateTotalTugas(uid)
             countDownTimer?.cancel()
 
             Toast.makeText(this, "Score anda $count", Toast.LENGTH_LONG).show()

@@ -69,31 +69,32 @@ class RegisterActivity : AppCompatActivity() {
 
             if (!isError) {
                 val userData = hashMapOf<String, Any>(
-                        "email" to email,
-                        "firstName" to firstName,
-                        "lastName" to lastName,
-                        "role" to role!!,
-                        "birthday" to birthday,
-                        "point" to 0,
-                        "totalItem" to 0
+                    "email" to email,
+                    "firstName" to firstName,
+                    "lastName" to lastName,
+                    "role" to role!!,
+                    "birthday" to birthday,
+                    "point" to 0,
+                    "totalItem" to 0,
+                    "tugasDikerjakan" to 0
                 )
 
                 authentication
-                        .createNewUserWithEmailAndPassword(email, password) {
-                            if (it.isSuccessful) {
-                                userData["userId"] = authentication.getUID()!!
+                    .createNewUserWithEmailAndPassword(email, password) {
+                        if (it.isSuccessful) {
+                            userData["userId"] = authentication.getUID()!!
 
-                                database.crateUser(userData) { task ->
+                            database.crateUser(userData) { task ->
 
-                                    if (task.isSuccessful) {
-                                        val intent = Intent(this, MainActivity::class.java)
-                                        startActivity(intent)
-                                        finish()
-                                    }
-
+                                if (task.isSuccessful) {
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
                                 }
+
                             }
                         }
+                    }
 
             }
 
@@ -102,7 +103,7 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    private fun onRadioButtonClicked(): String? = when(register_radio_group.checkedRadioButtonId) {
+    private fun onRadioButtonClicked(): String? = when (register_radio_group.checkedRadioButtonId) {
         R.id.register_radio_student -> "student"
         R.id.register_radio_teacher -> "teacher"
         else -> null
