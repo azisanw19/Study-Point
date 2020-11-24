@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.canwar.studypoint.adapters.InformationItemAdapter
 import id.canwar.studypoint.R
+import id.canwar.studypoint.activities.MainActivity
 import id.canwar.studypoint.adapters.TaskDoneItemHolder
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
@@ -33,12 +34,14 @@ class DashboardFragment(val userData: Map<String, Any>?) : Fragment() {
         if (userData?.get("role")?.toString() == "student") {
             viewGroup.dashboard_search_or_create_soal.text = "Cari Soal"
             viewGroup.dashboard_search_or_create_soal.setOnClickListener {
+                MainActivity.inDashboard = false
                 (activity as AppCompatActivity).supportActionBar?.title = "Cari Soal"
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, SearchFragment())?.commit()
             }
         } else if (userData?.get("role")?.toString() == "teacher") {
             viewGroup.dashboard_search_or_create_soal.text = "Buat Soal"
             viewGroup.dashboard_search_or_create_soal.setOnClickListener {
+                MainActivity.inDashboard = false
                 (activity as AppCompatActivity).supportActionBar?.title = "Buat Soal"
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, CreateSoalFragment())?.commit()
             }

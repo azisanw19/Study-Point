@@ -76,7 +76,8 @@ class RegisterActivity : AppCompatActivity() {
                     "birthday" to birthday,
                     "point" to 0,
                     "totalItem" to 0,
-                    "tugasDikerjakan" to 0
+                    "tugasDikerjakan" to 0,
+                    "image" to ""
                 )
 
                 authentication

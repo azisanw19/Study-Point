@@ -57,4 +57,17 @@ class Storage {
 
     }
 
+    fun uploadProfile(imageUri: Uri, extensionImage: String, callback: (task:  UploadTask.TaskSnapshot) -> Unit){
+
+        storage.getReference("profile")
+            .child("${System.currentTimeMillis()}.$extensionImage")
+            .putFile(imageUri)
+            .addOnSuccessListener {
+
+                Log.d("upload profile", "${it.uploadSessionUri}")
+
+                callback(it)
+            }
+    }
+
 }

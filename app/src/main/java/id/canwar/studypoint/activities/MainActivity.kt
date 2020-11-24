@@ -18,6 +18,10 @@ class MainActivity : AppCompatActivity() {
     private val authentication = Authentication.getInstance()
     private val database = Database.getInstance()
 
+    companion object {
+        var inDashboard = true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -56,6 +60,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun fragmentProfile() {
 
+        inDashboard = false
+
         supportActionBar?.title = "Profile"
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ProfileFragment()).commit()
         nav_view.setCheckedItem(R.id.nav_profile)
@@ -66,6 +72,8 @@ class MainActivity : AppCompatActivity() {
 
         val uid = authentication.getUID()
         if (uid != null) {
+
+            inDashboard = true
 
             Log.d("data user uid", uid)
             database.getUser(uid) {
@@ -103,6 +111,8 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START))
             drawer_layout.closeDrawer(GravityCompat.START)
+        else if (!inDashboard)
+            fragmentDashboard()
         else
             super.onBackPressed()
     }

@@ -13,8 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
@@ -23,7 +21,6 @@ import id.canwar.studypoint.dialogs.CustomBuatSoalDialog
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
 import id.canwar.studypoint.firebase.Storage
-import id.canwar.studypoint.helpers.REQUEST_CODE_CAMERA
 import id.canwar.studypoint.helpers.REQUEST_CODE_GALERI
 import kotlinx.android.synthetic.main.dialog_buat_soal.view.*
 import kotlinx.android.synthetic.main.fragment_create_soal.view.*

@@ -1,5 +1,6 @@
 package id.canwar.studypoint.firebase
 
+import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -358,7 +359,19 @@ class Database {
             .document(uid)
             .update(update)
             .addOnSuccessListener {
+                Log.d("update user", "image update successfully")
                 callback()
+            }
+
+    }
+
+    fun updateProfileImage(uid: String, image: String) {
+
+        db.collection("users")
+            .document(uid)
+            .update("image", image)
+            .addOnSuccessListener {
+                Log.d("update image", "image update successfully")
             }
 
     }

@@ -25,38 +25,63 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="100dp"
             android:layout_marginEnd="100dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/study_point" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person" />
 
-        <TextView
-            android:id="@+id/profile_tugas_dikerjakan"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="360"
-            android:textAlignment="center"
-            android:textSize="36dp" />
+            android:weightSum="2"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tugas Dikerjakan"
-            android:textAlignment="center" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/profile_point"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="3600"
-            android:textAlignment="center"
-            android:textSize="36dp" />
+                <TextView
+                    android:id="@+id/profile_tugas_dikerjakan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="360"
+                    android:textAlignment="center"
+                    android:textSize="36dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Poin Akumulasi"
-            android:textAlignment="center" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tugas Dikerjakan"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/profile_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="3600"
+                    android:textAlignment="center"
+                    android:textSize="36dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Poin Akumulasi"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
