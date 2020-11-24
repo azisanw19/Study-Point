@@ -64,7 +64,7 @@
             android:text="Cari Soal" />
 
         <Button
-            android:id="@+id/tukarpoin"
+            android:id="@+id/dashboard_tukar_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tukar Poin" />

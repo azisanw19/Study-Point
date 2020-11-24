@@ -373,6 +373,58 @@ class Database {
             .addOnSuccessListener {
                 Log.d("update image", "image update successfully")
             }
+    }
+
+    fun getItemFromSearch(search: String, callback: (items: ArrayList<Map<String, Any>?>) -> Unit) {
+
+        db.collection("item")
+            .orderBy("title")
+            .startAt(search)
+            .endAt(search + "\uf8ff")
+            .get()
+            .addOnSuccessListener {
+                val items: ArrayList<Map<String, Any>?> = ArrayList()
+
+                for (documentSnapshot in it.documents) {
+                    val item = documentSnapshot.data
+                    item?.set("key", documentSnapshot.id)
+
+                    items.add(item)
+                }
+
+                callback(items)
+            }
+
+    }
+
+    fun getPopulerItem(callback: (items: ArrayList<Map<String, Any>?>) -> Unit) {
+
+        db.collection("item")
+            .orderBy("penukaran")
+            .get()
+            .addOnSuccessListener {
+
+                val items: ArrayList<Map<String, Any>?> = ArrayList()
+
+                for (documentSnapshot in it.documents) {
+                    val item = documentSnapshot.data
+                    item?.set("key", documentSnapshot.id)
+
+                    items.add(item)
+                }
+
+                callback(items)
+
+            }
+    }
+
+    fun savePenukaran(data: Map<String, Any>, callback: () -> Unit) {
+
+        db.collection("penukaranItem")
+            .add(data)
+            .addOnSuccessListener {
+                callback()
+            }
 
     }
 

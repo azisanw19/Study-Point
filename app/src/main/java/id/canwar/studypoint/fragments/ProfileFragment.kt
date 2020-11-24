@@ -12,9 +12,6 @@ import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.gms.tasks.Tasks
-import com.google.firebase.storage.StorageTask
-import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import id.canwar.studypoint.R
 import id.canwar.studypoint.firebase.Authentication

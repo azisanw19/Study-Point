@@ -38,6 +38,12 @@ class DashboardFragment(val userData: Map<String, Any>?) : Fragment() {
                 (activity as AppCompatActivity).supportActionBar?.title = "Cari Soal"
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, SearchFragment())?.commit()
             }
+
+            viewGroup.dashboard_tukar_point.setOnClickListener {
+                MainActivity.inDashboard = false
+                (activity as AppCompatActivity).supportActionBar?.title = "Tukar Poin"
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, SearchItemFragment())?.commit()
+            }
         } else if (userData?.get("role")?.toString() == "teacher") {
             viewGroup.dashboard_search_or_create_soal.text = "Buat Soal"
             viewGroup.dashboard_search_or_create_soal.setOnClickListener {
@@ -45,6 +51,7 @@ class DashboardFragment(val userData: Map<String, Any>?) : Fragment() {
                 (activity as AppCompatActivity).supportActionBar?.title = "Buat Soal"
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, CreateSoalFragment())?.commit()
             }
+            viewGroup.dashboard_tukar_point.visibility = View.GONE
         }
 
 
