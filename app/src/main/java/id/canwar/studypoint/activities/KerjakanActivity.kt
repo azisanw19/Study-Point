@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.canwar.studypoint.R
@@ -50,9 +51,13 @@ class KerjakanActivity : AppCompatActivity() {
                 hiddenNextOrBack(indexSoal, jumlahSoal, id, it, point)
 
                 // initializing nomor
-                val warnaNomor = ArrayList<Int>()
-                for (i in 0 until jumlahSoal + 1) {
-                    warnaNomor.add(0)
+                val warnaNomor: ArrayList<Map<String, Any>> = ArrayList()
+                for (soalData in it) {
+                    val dataSoal = mapOf<String, Any>(
+                        "key" to soalData["key"].toString(),
+                        "idDikerjakan" to id
+                    )
+                    warnaNomor.add(dataSoal)
                 }
                 setupPilihNomor(warnaNomor)
 
@@ -67,6 +72,9 @@ class KerjakanActivity : AppCompatActivity() {
                     // setup header
                     hiddenNextOrBack(indexSoal, jumlahSoal, id, it, point)
                     kerjakan_nomor.text = "No. ${indexSoal + 1}"
+
+                    // setup nomor
+                    setupPilihNomor(warnaNomor)
                 }
 
                 kerjakan_sesudahnya.setOnClickListener { view ->
@@ -79,6 +87,9 @@ class KerjakanActivity : AppCompatActivity() {
                     // setup header
                     hiddenNextOrBack(indexSoal, jumlahSoal, id, it, point)
                     kerjakan_nomor.text = "No. ${indexSoal + 1}"
+
+                    // setup pilih nomor
+                    setupPilihNomor(warnaNomor)
 
                 }
 
@@ -117,7 +128,7 @@ class KerjakanActivity : AppCompatActivity() {
 
     }
 
-    private fun setupPilihNomor(warnaNomor: ArrayList<Int>) {
+    private fun setupPilihNomor(warnaNomor: ArrayList<Map<String, Any>>) {
 
         val nomorSoalItemHolder = NomorSoalItemHolder(this, warnaNomor)
         kerjakan_pilih_nomor_recycler_view.apply {
@@ -155,8 +166,13 @@ class KerjakanActivity : AppCompatActivity() {
             var count = 0
             for (jawaban in it) {
                 for (soal1 in soal) {
-                    if (jawaban["key"] == soal1.get("key"))
-                        count += point
+                    if (jawaban["key"] == soal1["key"]) {
+                        val kunciSoal = soal1["kunci"].toString()
+                        val jawab = jawaban["jawab"].toString()
+                        if (kunciSoal == jawab) {
+                            count += point
+                        }
+                    }
                 }
             }
 
@@ -165,6 +181,9 @@ class KerjakanActivity : AppCompatActivity() {
             database.setPoint(idDikerjakan, count)
             database.updatePointProfile(uid, count)
             countDownTimer?.cancel()
+
+            Toast.makeText(this, "Score anda $count", Toast.LENGTH_LONG).show()
+
             finish()
         }
 

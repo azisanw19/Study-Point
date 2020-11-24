@@ -24,6 +24,12 @@ class SoalFragment(val soal: Map<String, Any>, val idDikerjakan: String) : Fragm
 
         view = inflater.inflate(R.layout.fragment_soal, container, false) as ViewGroup
 
+        val keySoal = soal["key"].toString()
+        var jawab: Map<String, Any>?
+        database.getJawaban(idDikerjakan, keySoal) {
+            jawab = it.data
+            setCheckedFromDb(jawab)
+        }
         initUISoal()
 
         return view
@@ -33,13 +39,16 @@ class SoalFragment(val soal: Map<String, Any>, val idDikerjakan: String) : Fragm
     private fun cekJawaban() {
 
         val jawaban = onRadioButtonClicked()
+        val tandai = view.tandai_soal_kerjakan.isChecked
         val key = soal["key"].toString()
+        val jwb = mutableMapOf<String, Any>()
         if (jawaban != null) {
-            val jwb = mapOf<String, Any>(
-                "jawab" to jawaban!!
-            )
-            database.pushJawaban(idDikerjakan, key, jwb)
+            jwb["jawab"] = jawaban
         }
+        jwb["tandai"] = tandai
+
+        // bug karna async jawaban soal nomor terakhir rawan tidak tersimpan di database
+        database.pushJawaban(idDikerjakan, key, jwb)
     }
 
     override fun onDestroy() {
@@ -100,15 +109,39 @@ class SoalFragment(val soal: Map<String, Any>, val idDikerjakan: String) : Fragm
         } else
             view.image_soal_kerjakan.visibility = View.GONE
 
+    }
+
+    private fun setCheckedFromDb(jawab: Map<String, Any>?) {
+
+        Log.d("hasil jawaban", "jawab")
+
+        if (jawab != null) {
+            val pilihan = jawab["jawab"]?.toString()
+            val tandai = jawab["tandai"]?.toString()?.toBoolean()
+            if (pilihan != null) {
+                when (pilihan) {
+                    "a" -> view.pilihanA_kerjakan.isChecked = true
+                    "b" -> view.pilihanB_kerjakan.isChecked = true
+                    "c" -> view.pilihanC_kerjakan.isChecked = true
+                    "d" -> view.pilihanD_kerjakan.isChecked = true
+                    "e" -> view.pilihanE_kerjakan.isChecked = true
+                }
+            }
+            if (tandai != null) {
+                view.tandai_soal_kerjakan.isChecked = tandai
+            }
+
+        }
 
     }
 
-    private fun onRadioButtonClicked(): String? = when(view.kerjakan_pilih_jawaban.checkedRadioButtonId) {
-        R.id.pilihanA_kerjakan -> "a"
-        R.id.pilihanB_kerjakan -> "b"
-        R.id.pilihanC_kerjakan -> "c"
-        R.id.pilihanD_kerjakan -> "d"
-        R.id.pilihanE_kerjakan -> "e"
-        else -> null
-    }
+    private fun onRadioButtonClicked(): String? =
+        when (view.kerjakan_pilih_jawaban.checkedRadioButtonId) {
+            R.id.pilihanA_kerjakan -> "a"
+            R.id.pilihanB_kerjakan -> "b"
+            R.id.pilihanC_kerjakan -> "c"
+            R.id.pilihanD_kerjakan -> "d"
+            R.id.pilihanE_kerjakan -> "e"
+            else -> null
+        }
 }

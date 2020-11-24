@@ -307,6 +307,19 @@ class Database {
 
     }
 
+    fun getJawaban(idDikerjakan: String, key: String, callback: (documentSnapshot: DocumentSnapshot) -> Unit) {
+
+        db.collection("dikerjakan")
+            .document(idDikerjakan)
+            .collection("jawaban")
+            .document(key)
+            .get()
+            .addOnSuccessListener {
+                callback(it)
+            }
+
+    }
+
     fun updatePointProfile(uid:String, point: Int) {
 
         getUser(uid) {
