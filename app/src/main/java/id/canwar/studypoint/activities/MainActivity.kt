@@ -10,6 +10,7 @@ import id.canwar.studypoint.fragments.DashboardFragment
 import id.canwar.studypoint.R
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
+import id.canwar.studypoint.fragments.ItemDimilikiFragment
 import id.canwar.studypoint.fragments.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.nav_dashboard -> fragmentDashboard()
                 R.id.nav_profile -> fragmentProfile()
-                R.id.nav_item -> this// TODO("klik nav item")
+                R.id.nav_item -> fragmentItem()
                 R.id.nav_logout -> signOut()
             }
 
@@ -56,6 +57,16 @@ class MainActivity : AppCompatActivity() {
 
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+    }
+
+    private fun fragmentItem() {
+
+        inDashboard = false
+
+        supportActionBar?.title = "Item yang Dimiliki"
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ItemDimilikiFragment()).commit()
+        nav_view.setCheckedItem(R.id.nav_item)
+
     }
 
     private fun fragmentProfile() {

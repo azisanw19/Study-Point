@@ -428,6 +428,58 @@ class Database {
 
     }
 
+    fun getItemFromId(itemId: String, callback: (item: Map<String, Any>) -> Unit) {
+
+        db.collection("item")
+            .document(itemId)
+            .get()
+            .addOnSuccessListener {
+                Log.d("item from id", "success")
+
+                val item = it.data!!
+                item.set("key", it.id)
+                callback(item)
+            }
+
+    }
+
+    fun getItemDimiliki(uid: String, callback: (items: ArrayList<Map<String, Any>?>) -> Unit) {
+
+        db.collection("penukaranItem")
+            .whereEqualTo("userId", uid)
+            .orderBy("waktu")
+            .get()
+            .addOnSuccessListener {
+
+                val tasks: ArrayList<Task<DocumentSnapshot>> = ArrayList()
+
+                for (documentSnapshot in it.documents) {
+                    val itemDimiliki = documentSnapshot.data
+
+                    val idItem = itemDimiliki?.get("itemId").toString()
+                    Log.d("item id", idItem)
+
+                    val task = db.collection("item").document(idItem).get()
+                    tasks.add(task)
+                }
+
+                val items: ArrayList<Map<String, Any>?> = ArrayList()
+
+                Tasks.whenAllSuccess<DocumentSnapshot>(tasks)
+                    .addOnSuccessListener { snapshotList ->
+                        for (document in snapshotList) {
+                            val item = document.data
+
+                            items.add(item)
+                        }
+                        Log.d("item dimiliki", "$items")
+                        callback(items)
+                    }
+
+            }
+
+    }
+
 
 /**
     fun pushPoint(idDikerjakan: String, point: Int) {

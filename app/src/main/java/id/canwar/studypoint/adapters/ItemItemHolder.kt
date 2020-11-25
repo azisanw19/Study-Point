@@ -14,7 +14,8 @@ import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
 import kotlinx.android.synthetic.main.item_item_holder.view.*
 
-class ItemItemHolder(val context: Context, val items: ArrayList<Map<String, Any>?>) : RecyclerView.Adapter<ItemItemHolder.ViewHolder>() {
+class ItemItemHolder(val context: Context, val items: ArrayList<Map<String, Any>?>) :
+    RecyclerView.Adapter<ItemItemHolder.ViewHolder>() {
 
     private val database = Database.getInstance()
     private val authentication = Authentication.getInstance()
@@ -25,7 +26,8 @@ class ItemItemHolder(val context: Context, val items: ArrayList<Map<String, Any>
 
             val image = item?.get("image")?.toString()
             try {
-                Picasso.get().load(image).placeholder(R.drawable.ic_image_none).into(view.image_item_holder)
+                Picasso.get().load(image).placeholder(R.drawable.ic_image_none)
+                    .into(view.image_item_holder)
             } catch (e: Exception) {
                 Log.e("error picasso", "$image")
             }
@@ -45,17 +47,34 @@ class ItemItemHolder(val context: Context, val items: ArrayList<Map<String, Any>
                         val itemId = item?.get("key").toString()
                         val penukaran = mapOf<String, Any>(
                             "userId" to uid!!,
-                            "itemId" to itemId
+                            "itemId" to itemId,
+                            "waktu" to System.currentTimeMillis()
                         )
 
-                        val point = item?.get("point").toString().toInt() * -1
+                        val point = item?.get("point").toString().toInt()
 
-                        database.savePenukaran(penukaran) {
-                            Toast.makeText(context, "Penukaran berhasil", Toast.LENGTH_LONG).show()
+                        database.getUser(uid) {
 
-                            database.updatePointProfile(uid, point)
+                            val userPoint = it?.get("point").toString().toInt()
+
+                            if (userPoint < point) {
+                                Toast.makeText(
+                                    context,
+                                    "Maaf poin anda tidak mencukupi untuk melakukan penukaran!",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                dialog.dismiss()
+                            } else {
+                                database.savePenukaran(penukaran) {
+                                    Toast.makeText(context, "Penukaran berhasil", Toast.LENGTH_LONG)
+                                        .show()
+
+                                    database.updatePointProfile(uid, point)
+                                    dialog.dismiss()
+                                }
+                            }
+
                         }
-                        dialog.dismiss()
 
                     }
                     .setNegativeButton("Cancel") { dialog, which ->
