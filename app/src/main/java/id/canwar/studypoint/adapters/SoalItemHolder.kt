@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.canwar.studypoint.R
 import id.canwar.studypoint.activities.KerjakanActivity
-import id.canwar.studypoint.dialogs.CustomDetailSoal
+import id.canwar.studypoint.dialogs.CustomDetailSoalDialog
 import kotlinx.android.synthetic.main.dialog_details_soal.view.*
 import kotlinx.android.synthetic.main.soal_item_holder.view.*
 
@@ -30,7 +30,7 @@ class SoalItemHolder(val activity: Activity, val dataSoal: ArrayList<Map<String,
             view.soal_item_holder_deskripsi.text = soal?.get("deskripsi").toString()
 
             view.soal_item_holder_details.setOnClickListener {
-                CustomDetailSoal(activity) { dialog, viewDialog ->
+                CustomDetailSoalDialog(activity) { dialog, viewDialog ->
 
                     viewDialog.dialog_judul.text = soal?.get("judul").toString()
                     viewDialog.dialog_guru.text = "$firstName $lastName"

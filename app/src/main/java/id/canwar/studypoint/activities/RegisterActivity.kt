@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import id.canwar.studypoint.R
+import id.canwar.studypoint.dialogs.LoadingDialog
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
 import kotlinx.android.synthetic.main.activity_register.*
@@ -14,6 +15,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private val authentication = Authentication.getInstance()
     private val database = Database.getInstance()
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
+
+        loadingDialog = LoadingDialog(this)
 
         register_button.setOnClickListener {
 
@@ -80,6 +84,8 @@ class RegisterActivity : AppCompatActivity() {
                     "image" to ""
                 )
 
+                loadingDialog.show()
+
                 authentication
                     .createNewUserWithEmailAndPassword(email, password) {
                         if (it.isSuccessful) {
@@ -88,12 +94,19 @@ class RegisterActivity : AppCompatActivity() {
                             database.crateUser(userData) { task ->
 
                                 if (task.isSuccessful) {
+                                    loadingDialog.dismiss()
+
                                     val intent = Intent(this, MainActivity::class.java)
                                     startActivity(intent)
                                     finish()
+                                } else {
+                                    Toast.makeText(this, "Register failed", Toast.LENGTH_SHORT).show()
+                                    loadingDialog.dismiss()
                                 }
 
                             }
+                        } else {
+                            loadingDialog.dismiss()
                         }
                     }
 

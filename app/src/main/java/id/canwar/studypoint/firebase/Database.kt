@@ -1,6 +1,5 @@
 package id.canwar.studypoint.firebase
 
-import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks

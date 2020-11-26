@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import id.canwar.studypoint.R
+import id.canwar.studypoint.dialogs.LoadingDialog
 import id.canwar.studypoint.firebase.Authentication
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
     private val authentication = Authentication.getInstance()
+    private lateinit var loadingDialog: LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +21,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
+
+        loadingDialog = LoadingDialog(this)
 
         login_button.setOnClickListener {
             val email = login_email.text.toString()
@@ -40,8 +44,12 @@ class LoginActivity : AppCompatActivity() {
 
             if (!isError) {
 
+                loadingDialog.show()
+
                 authentication
                         .signInWithEmailAndPassword(email, password) {
+
+                            loadingDialog.dismiss()
 
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
