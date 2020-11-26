@@ -69,7 +69,7 @@ class ItemItemHolder(val context: Context, val items: ArrayList<Map<String, Any>
                                     Toast.makeText(context, "Penukaran berhasil", Toast.LENGTH_LONG)
                                         .show()
 
-                                    database.updatePointProfile(uid, point)
+                                    database.updatePointProfile(uid, point*-1)
                                     dialog.dismiss()
                                 }
                             }
