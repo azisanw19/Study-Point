@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:orientation="vertical">
     <!--
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,6 +27,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="20dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -40,6 +39,7 @@
                 android:id="@+id/information_soal_create_soal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -47,6 +47,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:hint="Judul">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -57,11 +58,11 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-
                     android:id="@+id/deskripsisoal"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:hint="Deskripsi">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -72,11 +73,11 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-
                     android:id="@+id/waktusoal"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:hint="Waktu Pengerjaan">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -88,10 +89,10 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:hint="Mata Pelajaran">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -106,6 +107,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:hint="Jenjang Pendidikan">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -116,10 +118,10 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:hint="Point Maksimal">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -134,40 +136,47 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Soal" />
+                android:layout_marginBottom="8dp"
+                android:text="Soal"
+                android:textColor="@color/black" />
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:id="@+id/soal"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="start">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/soal_create_soal"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:gravity="start" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/upload_gambar_create_soal"
-                android:layout_width="100dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="Upload Gambar" />
+                android:layout_marginBottom="8dp"
+                android:text="Upload Gambar"
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Pilihan" />
+                android:layout_marginBottom="8dp"
+                android:text="Pilihan"
+                android:textColor="@color/black" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_pilihanA_create_soal"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_pilihanA_create_soal"
+                android:layout_marginBottom="8dp"
                 android:hint="Jawaban">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -179,11 +188,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
 
+                android:id="@+id/layout_pilihanB_create_soal"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="Jawaban"
-                android:id="@+id/layout_pilihanB_create_soal"
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -195,11 +205,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
 
+                android:id="@+id/layout_pilihanC_create_soal"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="Jawaban"
-                android:id="@+id/layout_pilihanC_create_soal"
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -211,11 +222,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
 
+                android:id="@+id/layout_pilihanD_create_soal"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="Jawaban"
-                android:id="@+id/layout_pilihanD_create_soal"
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -227,11 +239,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
 
+                android:id="@+id/layout_pilihanE_create_soal"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="Jawaban"
-                android:id="@+id/layout_pilihanE_create_soal"
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -245,13 +258,16 @@
                 android:id="@+id/button_add_choice_create_soal"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="+" />
+                android:text="+"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Kunci" />
+                android:layout_marginBottom="8dp"
+                android:text="Kunci"
+                android:textColor="@color/black" />
 
             <com.google.android.material.textfield.TextInputLayout
 
@@ -259,6 +275,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="Kunci">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -272,8 +289,9 @@
                 android:id="@+id/button_submit_create_soal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Submit" />
+                android:layout_marginBottom="8dp"
+                android:text="Submit"
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </ScrollView>

@@ -13,8 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyPoint">
-        <activity android:name=".activities.MainActivity"
-            android:theme="@style/Theme.StudyPoint.NoActionBar">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

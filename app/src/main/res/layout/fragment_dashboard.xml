@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@color/white">
+    android:padding="20dp">
 
 
     <!--
@@ -32,7 +31,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/rounded"
         android:padding="10dp"
         android:scrollbars="none">
@@ -41,41 +39,44 @@
             android:id="@+id/info_dashboard_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-<!--
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Informasi"/>
--->
+        <!--
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Informasi"/>
+        -->
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:orientation="vertical"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical"
+        android:textAlignment="center">
 
         <Button
             android:id="@+id/dashboard_search_or_create_soal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cari Soal" />
+            android:text="Cari Soal"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/dashboard_tukar_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tukar Poin" />
+            android:text="Tukar Poin"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="Tugas yang sudah dikerjakan"
-        android:layout_marginBottom="8dp" />
+        android:textColor="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/task_done_recycler_view"
@@ -83,25 +84,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:scrollbars="none" />
-<!--
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@drawable/rounded"
-        android:layout_marginTop="20dp"
-        android:scrollbars="none">
-
-        <TextView
+    <!--
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Soal a Dikerjakan (poin)"/>
+            android:layout_height="200dp"
+            android:background="@drawable/rounded"
+            android:layout_marginTop="20dp"
+            android:scrollbars="none">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Soal a Dikerjakan (poin)"/>
 
 
 
 
 
-    </ScrollView>
-    -->
+        </ScrollView>
+        -->
 
 
 </LinearLayout>

@@ -1,35 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
     android:background="@drawable/rounded"
     android:orientation="vertical"
-    android:layout_marginBottom="8dp"
     android:padding="20dp">
 
     <TextView
         android:id="@+id/soal_item_holder_judul"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Judul Soal"
-        android:textSize="20dp"/>
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        tools:text="Judul Soal" />
 
     <TextView
         android:id="@+id/soal_item_holder_guru"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guru"
-        android:textSize="14dp"/>
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        tools:text="Guru" />
 
     <TextView
         android:id="@+id/soal_item_holder_deskripsi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Deskripsi"
-        android:textSize="10dp"/>
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        tools:text="Deskripsi" />
+
     <Button
         android:id="@+id/soal_item_holder_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lihat Detail" />
+        android:layout_marginBottom="8dp"
+        android:text="Lihat Detail"
+        android:textColor="@color/white" />
 </LinearLayout>

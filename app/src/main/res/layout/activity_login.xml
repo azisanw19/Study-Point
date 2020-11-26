@@ -34,7 +34,8 @@
         android:layout_marginTop="50dp"
         android:fontFamily="@font/pt_sans"
         android:text="Sign In To Continue"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
 
     <LinearLayout
         android:layout_width="match_parent"

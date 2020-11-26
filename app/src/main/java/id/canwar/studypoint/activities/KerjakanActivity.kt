@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.canwar.studypoint.R
 import id.canwar.studypoint.adapters.NomorSoalItemHolder
+import id.canwar.studypoint.dialogs.LoadingDialog
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
 import id.canwar.studypoint.fragments.SoalFragment
@@ -18,6 +19,7 @@ class KerjakanActivity : AppCompatActivity() {
 
     private val database = Database.getInstance()
     private val authentication = Authentication.getInstance()
+    private lateinit var loadingDialog: LoadingDialog
 
     private var countDownTimer: CountDownTimer? = null
     private var timeMilliSecond: Long? = null
@@ -25,6 +27,8 @@ class KerjakanActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kerjakan)
+
+        loadingDialog = LoadingDialog(this)
 
         val soalId = intent.extras?.getString("soalId")
         var indexSoal = 0
@@ -39,8 +43,10 @@ class KerjakanActivity : AppCompatActivity() {
             "waktuDikerjakan" to System.currentTimeMillis()
         )
 
+        loadingDialog.show()
         database.getSoalSoal(soalId!!) {
             database.pushKerjakan(dikerjakan) { id ->
+                loadingDialog.dismiss()
 
                 // Initializing soal
                 val soal = it[indexSoal]

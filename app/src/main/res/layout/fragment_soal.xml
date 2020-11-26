@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@id/kerjakan_separator_pilih_nomor"
@@ -17,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Anime terbagus adalah ..."
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="18sp"
+            tools:text="Anime terbagus adalah ..." />
 
         <ImageView
             android:id="@+id/image_soal_kerjakan"
@@ -38,38 +39,50 @@
                 android:id="@+id/pilihanA_kerjakan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A" />
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:text="A" />
 
             <RadioButton
                 android:id="@+id/pilihanB_kerjakan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="B" />
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:text="B" />
 
             <RadioButton
                 android:id="@+id/pilihanC_kerjakan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="C" />
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:text="C" />
 
             <RadioButton
                 android:id="@+id/pilihanD_kerjakan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="D" />
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:text="D" />
 
             <RadioButton
                 android:id="@+id/pilihanE_kerjakan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="E" />
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:text="E" />
         </RadioGroup>
 
         <CheckBox
             android:id="@+id/tandai_soal_kerjakan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tandai soal" />
+            android:text="Tandai soal"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
 
     </LinearLayout>

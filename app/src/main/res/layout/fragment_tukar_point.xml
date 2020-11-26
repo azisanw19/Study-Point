@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -44,7 +43,8 @@
         android:id="@+id/button_cari_item_tukar_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cari" />
+        android:text="Cari"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:id="@+id/item_search_item_holder"
@@ -56,7 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Hasil Pencarian" />
+            android:text="Hasil Pencarian"
+            android:textColor="@color/black" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hasil_pencarian_recycler_view"
@@ -77,7 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Item Populer" />
+            android:text="Item Populer"
+            android:textColor="@color/black"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/populer_item_recycler_view"

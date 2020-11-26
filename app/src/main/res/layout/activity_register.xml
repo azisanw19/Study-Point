@@ -7,12 +7,12 @@
     android:orientation="vertical"
     android:padding="20dp">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:textColor="@color/black"/>
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -88,7 +88,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Role" />
+                android:text="Role"
+                android:textColor="@color/black"/>
 
             <RadioGroup
                 android:id="@+id/register_radio_group"
@@ -101,13 +102,15 @@
                     android:id="@+id/register_radio_student"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Student" />
+                    android:text="Student"
+                    android:textColor="@color/black"/>
 
                 <RadioButton
                     android:id="@+id/register_radio_teacher"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Teacher" />
+                    android:text="Teacher"
+                    android:textColor="@color/black"/>
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -160,7 +163,8 @@
                 android:id="@+id/register_sk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Saya telah membaca dan menyetujui syarat dan ketentuan yang berlaku" />
+                android:text="Saya telah membaca dan menyetujui syarat dan ketentuan yang berlaku"
+                android:textColor="@color/black"/>
 
             <Button
                 android:id="@+id/register_button"
@@ -171,7 +175,7 @@
                 android:background="#F3B700"
                 android:backgroundTint="#FFFFFF"
                 android:text="Register"
-                android:textColor="#000" />
+                android:textColor="@color/white" />
 
 
             <Button

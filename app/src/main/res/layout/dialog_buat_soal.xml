@@ -3,20 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="20dp">
 
     <Button
         android:id="@+id/dialog_selesaikan_soal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Selesaikan Soal"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/dialog_tambah_soal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tambah Soal Baru"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/white"/>
 
 </LinearLayout>
