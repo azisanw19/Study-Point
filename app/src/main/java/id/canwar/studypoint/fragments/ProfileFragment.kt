@@ -58,6 +58,11 @@ class ProfileFragment : Fragment() {
         val firstName = dataUser?.get("firstName").toString()
         val lastName = dataUser?.get("lastName").toString()
         val birthDay = dataUser?.get("birthday").toString()
+        val role = dataUser?.get("role").toString()
+
+        if (role == "teacher") {
+            view.profile_point_layout.visibility = View.GONE
+        }
 
         try {
             Picasso.get().load(image).placeholder(R.drawable.ic_person).into(view.image_profile)

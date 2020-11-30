@@ -29,7 +29,6 @@ class DashboardFragment(val userData: Map<String, Any>?) : Fragment() {
         viewGroup = inflater.inflate(R.layout.fragment_dashboard, container, false) as ViewGroup
 
         getInformation(viewGroup)
-        getTaskDone(viewGroup)
 
         if (userData?.get("role")?.toString() == "student") {
             viewGroup.dashboard_search_or_create_soal.text = "Cari Soal"
@@ -44,6 +43,7 @@ class DashboardFragment(val userData: Map<String, Any>?) : Fragment() {
                 (activity as AppCompatActivity).supportActionBar?.title = "Tukar Poin"
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, SearchItemFragment())?.commit()
             }
+            getTaskDone(viewGroup)
         } else if (userData?.get("role")?.toString() == "teacher") {
             viewGroup.dashboard_search_or_create_soal.text = "Buat Soal"
             viewGroup.dashboard_search_or_create_soal.setOnClickListener {
@@ -52,6 +52,8 @@ class DashboardFragment(val userData: Map<String, Any>?) : Fragment() {
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, CreateSoalFragment())?.commit()
             }
             viewGroup.dashboard_tukar_point.visibility = View.GONE
+            viewGroup.bottom_tugas_dashboard.text = "Soal yang dibuat"
+            getSoalDone(viewGroup)
         }
 
 
@@ -83,6 +85,21 @@ class DashboardFragment(val userData: Map<String, Any>?) : Fragment() {
                 adapter = taskDoneItemHolder
             }
 
+        }
+
+    }
+
+    private fun getSoalDone(view: View) {
+
+        val uid = authentication.getUID()
+
+        database.getTeacherSoal(uid!!) {
+
+            val taskDoneItemHolder = TaskDoneItemHolder(ArrayList(), it)
+            view.task_done_recycler_view.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = taskDoneItemHolder
+            }
         }
 
     }

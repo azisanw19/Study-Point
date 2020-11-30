@@ -479,6 +479,28 @@ class Database {
 
     }
 
+    fun getTeacherSoal(uid: String, callback: (items: ArrayList<Map<String, Any>?>) -> Unit) {
+
+        db.collection("soal")
+            .whereEqualTo("pembuatId", uid)
+            .get()
+            .addOnSuccessListener {
+
+                val soals: ArrayList<Map<String, Any>?> = ArrayList()
+
+                for (documentSnapshot in it.documents) {
+                    val soal = documentSnapshot.data
+                    soal?.set("key", documentSnapshot.id)
+
+                    soals.add(soal)
+                }
+
+                callback(soals)
+
+            }
+
+    }
+
 
 /**
     fun pushPoint(idDikerjakan: String, point: Int) {

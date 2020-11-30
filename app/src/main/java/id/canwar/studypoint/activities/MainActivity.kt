@@ -4,8 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import id.canwar.studypoint.fragments.DashboardFragment
 import id.canwar.studypoint.R
 import id.canwar.studypoint.firebase.Authentication
@@ -92,6 +94,10 @@ class MainActivity : AppCompatActivity() {
                 supportActionBar?.title = "${it?.get("firstName")?.toString()} ${it?.get("lastName")?.toString()}"
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, DashboardFragment(it)).commit()
                 nav_view.setCheckedItem(R.id.nav_dashboard)
+
+                if (it?.get("role").toString() == "teacher") {
+                    nav_view.menu.findItem(R.id.nav_item).isVisible = false
+                }
             }
 
         }
