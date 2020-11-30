@@ -13,10 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import id.canwar.studypoint.R
+import id.canwar.studypoint.activities.MainActivity
 import id.canwar.studypoint.dialogs.CustomBuatSoalDialog
 import id.canwar.studypoint.firebase.Authentication
 import id.canwar.studypoint.firebase.Database
@@ -219,6 +221,7 @@ class CreateSoalFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                     storageTask = null
+                    moveDashboardFragment()
                     dialog.dismiss()
                     clearEditText()
                 }
@@ -238,6 +241,16 @@ class CreateSoalFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun moveDashboardFragment() {
+
+        val uid = authentication.getUID()
+        database.getUser(uid!!) {
+            MainActivity.inDashboard = true
+            (activity as AppCompatActivity).supportActionBar?.title = "${it?.get("firstName")?.toString()} ${it?.get("lastName")?.toString()}"
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, DashboardFragment(it))?.commit()
+        }
     }
 
     private fun clearEditText() {
